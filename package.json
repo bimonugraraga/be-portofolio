@@ -1,0 +1,27 @@
+{
+  "name": "be-portofolio",
+  "version": "1.0.0",
+  "description": "https://docs.google.com/document/d/1EzhdliEepfb-W8sNVVvc364voGv9T3N6NEQ512ioMS4/edit#",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bimonugraraga/be-portofolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bimonugraraga/be-portofolio/issues"
+  },
+  "homepage": "https://github.com/bimonugraraga/be-portofolio#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "pg": "^8.7.3",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1"
+  }
+}
