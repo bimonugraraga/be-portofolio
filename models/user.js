@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.OTPassword, {foreignKey: "user_id"})
     }
   }
   User.init({
@@ -95,6 +96,17 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (value) => {
         value.password = hashPassword(value.password)
+      },
+      afterCreate: async(user, option) => {
+        if (!user.google_token){
+          let params = {
+            user_id: user.id,
+            otp_code: Math.floor(1000 + Math.random() * 9000),
+          }
+          await sequelize.models.OTPassword.create(params, {
+            transaction: option.transaction
+          })
+        }
       }
     },
     modelName: 'User',
