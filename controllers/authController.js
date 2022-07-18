@@ -34,6 +34,19 @@ class UserController{
       next(error)
     }
   }
+
+  static async verifOTP (req, res, next){
+    let {verify} = req.body
+
+    try {
+        let verifyOTP = await UserService.verifyOTP(verify, next)
+        if (verifyOTP){
+          res.status(200).json(verifyOTP)
+        }
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 module.exports = UserController

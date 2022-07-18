@@ -1,4 +1,4 @@
-const {User} = require('../models')
+const {User, OTPassword} = require('../models')
 const {verifPassword} = require('../helpers/passwordHandler')
 const {signToken} = require('../helpers/jwtHandler')
 const { OAuth2Client } = require("google-auth-library");
@@ -27,6 +27,17 @@ class UserService {
         throw{
           code :404,
           message: "User Not Found"
+        }
+      }
+      let checkOTP = await OTPassword.findOne({
+        where: {
+          user_id: targetUser.id
+        }
+      })
+      if (checkOTP){
+        throw{
+          code :401,
+          message: "User Not Verified Yet"
         }
       }
       let isPassword = verifPassword(params.password, targetUser.password)
@@ -84,7 +95,29 @@ class UserService {
     } catch (error) {
       next(error)
     }
-    
+  }
+
+  static async verifyOTP (params, next){
+    try {
+      let targetOTP = await OTPassword.destroy({
+        where: {
+          user_id: params.user_id,
+          otp_code: params.otp_code
+        }
+      })
+
+      if (targetOTP === 0){
+        throw {
+          code: 400,
+          message: "Wrong OTP"
+        }
+      }
+      return {
+        message: "Account Verified"
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
